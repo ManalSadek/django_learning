@@ -1,0 +1,9 @@
+{% load staticfiles %}
+
+<form action="{% url 'trackme:login' %}" method="post">
+
+{% csrf_token %}
+<input name="username" id="username" />
+<input name="password" type="secure" id="password" />
+<input type="submit" value="Login" />
+</form>
