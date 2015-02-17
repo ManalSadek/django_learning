@@ -1,0 +1,8 @@
+{% load staticfiles %}
+
+{% csrf_token %}
+
+{% if user %}
+<h1> Hello {{user.username}} </h1>
+
+{% endif %}

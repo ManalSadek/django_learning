@@ -1,11 +1,12 @@
 {% load staticfiles %}
 <h1>Hello World</h1>
 
+{% csrf_token %}
 
 {% if users %}
     <ul>
     {% for user in users %}
-        <li>{{ user.email }}</li>
+        <li>{{ user.username }} {{ user.password }}</li>
     {% endfor %}
     </ul>
 {% endif %}

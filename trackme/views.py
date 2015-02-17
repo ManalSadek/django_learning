@@ -8,11 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, render_to_response, redirect
 
-class IndexView(generic.ListView):
-	template_name = 'trackme/index.html'
-	context_object_name = 'users'
-	def get_queryset(self):
-		return User.objects.order_by('username')
+
+def index(request):
+    return render_to_response('trackme/index.html',{'users':User.objects.order_by('username')})
 
 
 def register(request):
@@ -24,7 +22,7 @@ def register(request):
         profilePicture = request.POST['profilePicture']
         newUser = User.objects.create(username = username, password = password, email = email, reports = 0 , profilePicture = profilePicture)
         if newUser is not None :
-            return HttpResponseRedirect(reverse('trackme/profile.html'))
+            return HttpResponseRedirect(reverse('trackme:profile', args = (username,)))
     return render_to_response('trackme/register.html', context_instance=RequestContext(request))
 
 
@@ -34,17 +32,14 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
 
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect('trackme/profile.html',context_instance = RequestContext(request))
+        user = User.objects.filter(username = username, password = password)
+        if len(user) > 0:
+            return HttpResponseRedirect(reverse('trackme:profile', args = (username,)))
     return render_to_response('trackme/login.html', context_instance=RequestContext(request))
 
 
-class ProfileView(generic.DetailView):
-    template_name = 'trackme/profile.html'
-    context_object_name = 'users'
-    def get_queryset(self):
-        return User.objects.filter(username='username')
+def profile(request,username):
+    if username is not None:
+        return render_to_response('trackme/profile.html',{'user':User.objects.filter(username = username)[1]})
+    return render_to_response('trackme/login.html')
 
