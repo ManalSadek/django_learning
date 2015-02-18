@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(max_length=200)),
                 ('password', models.CharField(max_length=20)),
                 ('reports', models.IntegerField(default=0)),
-                ('profilePicture', models.ImageField(upload_to=b'trackme/profilePictures')),
+                ('profilePicture', models.ImageField(upload_to=b'profilePictures')),
             ],
             options={
             },

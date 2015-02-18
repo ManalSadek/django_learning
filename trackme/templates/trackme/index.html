@@ -9,4 +9,8 @@
         <li>{{ user.username }} {{ user.password }}</li>
     {% endfor %}
     </ul>
+{% else %}
+<form action = "{% url 'trackme:register' %}">
+	<input type="submit" value="register" />
+</form>
 {% endif %}
